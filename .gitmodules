@@ -1,0 +1,6 @@
+[submodule "dependencies/datachannel"]
+	path = dependencies/datachannel
+	url = https://github.com/paullouisageneau/libdatachannel.git
+[submodule "dependencies/openssl"]
+	path = dependencies/openssl
+	url = https://github.com/openssl/openssl.git
