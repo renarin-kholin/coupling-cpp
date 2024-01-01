@@ -4,3 +4,6 @@
 [submodule "dependencies/openssl"]
 	path = dependencies/openssl
 	url = https://github.com/openssl/openssl.git
+[submodule "dependencies/json"]
+	path = dependencies/json
+	url = https://github.com/nlohmann/json

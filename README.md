@@ -1,5 +1,5 @@
 # Coupling
-Socket server for Chaos communications.
+Media Server for Chaos communications.
 ## Building Instructions
 First clone the repository with its submodule dependencies using:
 ```bash
