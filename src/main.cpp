@@ -22,7 +22,7 @@ shared_ptr<rtc::PeerConnection> createPeerConnection(const rtc::Configuration &c
 
 int main() {
     rtc::Configuration config;
-    std::string stunServer = "stunserver.stunprotocol.org";
+    std::string stunServer = "turn:192.158.29.39:3478?transport=udp";
     config.iceServers.emplace_back(stunServer);
     config.enableIceUdpMux = true;
     localId = randomId(4);
@@ -76,7 +76,7 @@ int main() {
 
 
     });
-    const std::string wsPrefix = "ws://";
+    const std::string wsPrefix = "wss://";
     const std::string url = wsPrefix + "firstcrowdedargument.shishudesu.repl.co" + "/" + localId;
     std::cout << "websocket url is " << url << std::endl;
 
