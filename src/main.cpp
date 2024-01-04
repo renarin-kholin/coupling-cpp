@@ -23,10 +23,12 @@ shared_ptr<rtc::PeerConnection> createPeerConnection(const rtc::Configuration &c
 int main() {
     rtc::Configuration config;
     std::string stunServer = "turn:192.158.29.39:3478?transport=udp";
-    config.iceServers.emplace_back(stunServer);
+    auto * ice_server = new rtc::IceServer("turn:global.relay.metered.ca", 80, "46c967b98ec9994d702767e8", "lcz6Ykhd14hYyKfP");
+    config.iceServers.emplace_back(*ice_server);
     config.enableIceUdpMux = true;
     localId = randomId(4);
     std::cout << "Local ID is " << localId << std::endl;
+
 
     auto ws = std::make_shared<rtc::WebSocket>();
     std::promise<void> wsPromise;
@@ -77,7 +79,7 @@ int main() {
 
     });
     const std::string wsPrefix = "wss://";
-    const std::string url = wsPrefix + "firstcrowdedargument.shishudesu.repl.co" + "/" + localId;
+    const std::string url = wsPrefix + "bfc64876-21c8-4c1d-b730-4f035ddc995f-00-3f103q41zt6ow.worf.replit.dev" + "/" + localId;
     std::cout << "websocket url is " << url << std::endl;
 
     ws->open(url);
