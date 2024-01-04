@@ -20,9 +20,9 @@ std::unordered_map<std::string, shared_ptr<rtc::DataChannel>> dataChannelMap;
 
 shared_ptr<rtc::PeerConnection> createPeerConnection(const rtc::Configuration &config, weak_ptr<rtc::WebSocket> wws, std::string id);
 
-int main() {
+int main(int argc, char **argv)  try {
+    rtc::InitLogger(rtc::LogLevel::Info);
     rtc::Configuration config;
-    std::string stunServer = "turn:192.158.29.39:3478?transport=udp";
     auto * ice_server = new rtc::IceServer("turn:global.relay.metered.ca", 80, "46c967b98ec9994d702767e8", "lcz6Ykhd14hYyKfP");
     config.iceServers.emplace_back(*ice_server);
     config.enableIceUdpMux = true;
@@ -128,8 +128,11 @@ int main() {
     peerConnectionMap.clear();
     return 0;
 
-
-    return 0;
+}catch (const std::exception &e) {
+	std::cout << "Error: " << e.what() << std::endl;
+	dataChannelMap.clear();
+	peerConnectionMap.clear();
+	return -1;
 }
 shared_ptr<rtc::PeerConnection> createPeerConnection(const rtc::Configuration& config, weak_ptr<rtc::WebSocket> wws, std::string id) {
     auto pc = std::make_shared<rtc::PeerConnection>(config);
@@ -140,7 +143,7 @@ shared_ptr<rtc::PeerConnection> createPeerConnection(const rtc::Configuration& c
        std::cout << "Gathering State: " << state << std::endl;
     });
     pc->onLocalDescription([wws, id](rtc::Description description) {
-       json message = {{"id", id}, {"type", description.typeString(), {"description", std::string(description)}}};
+       json message = {{"id", id}, {"type", description.typeString()}, {"description", std::string(description)}};
         if(auto ws = wws.lock()) ws->send(message.dump());
     });
     pc->onLocalCandidate([wws, id](rtc::Candidate candidate) {
